@@ -2,10 +2,7 @@ package dao;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -73,13 +70,21 @@ public class AbstractDAO<T> {
 
 	private List<T> createObjects(ResultSet resultSet) {
 		List<T> list = new ArrayList<T>();
-
+		Constructor[] ctors = type.getDeclaredConstructors();
+		Constructor ctor = null;
+		for (int i = 0; i < ctors.length; i++) {
+			ctor = ctors[i];
+			if (ctor.getGenericParameterTypes().length == 0)
+				break;
+		}
 		try {
 			while (resultSet.next()) {
-				T instance = type.newInstance();
+				ctor.setAccessible(true);
+				T instance = (T)ctor.newInstance();
 				for (Field field : type.getDeclaredFields()) {
-					Object value = resultSet.getObject(field.getName());
-					PropertyDescriptor propertyDescriptor = new PropertyDescriptor(field.getName(), type);
+					String fieldName = field.getName();
+					Object value = resultSet.getObject(fieldName);
+					PropertyDescriptor propertyDescriptor = new PropertyDescriptor(fieldName, type);
 					Method method = propertyDescriptor.getWriteMethod();
 					method.invoke(instance, value);
 				}
