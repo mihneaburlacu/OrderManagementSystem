@@ -3,9 +3,8 @@ package bll.validators;
 import model.Student;
 
 /**
- * @Author: Technical University of Cluj-Napoca, Romania Distributed Systems
- *          Research Laboratory, http://dsrl.coned.utcluj.ro/
- * @Since: Apr 03, 2017
+ * <p>Clasa care valideaza varsta unui student (client)</p>
+ * <p>Aceasta varsta trebuie sa fie intre 7 si 30 de ani</p>
  */
 public class StudentAgeValidator implements Validator<Student> {
 	private static final int MIN_AGE = 7;

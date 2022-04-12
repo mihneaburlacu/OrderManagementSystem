@@ -1,9 +1,9 @@
 package bll.validators;
 
 /**
- * @Author: Technical University of Cluj-Napoca, Romania Distributed Systems
- *          Research Laboratory, http://dsrl.coned.utcluj.ro/
- * @Since: Apr 03, 2017
+ * <p>Interfata care ne ajuta sa validam clientii, produsele si comenzile</p>
+ * <p>Aceasta interfata este implementata de mai multe clase care vor realiza validarile</p>
+ * @param <T> Primeste un obiect de tipul Object ca parametru, pentru a putea fi implementata de orice clasa din Model
  */
 public interface Validator<T> {
 
